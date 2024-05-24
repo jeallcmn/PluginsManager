@@ -93,7 +93,13 @@ class Host:
         :param Lv2Patch patch: Patch that the value will be updated
         """
         self.connection.send(ProtocolParser.patch_set(patch))
+    def set_preset(self, preset):
+        """
+        Set an effect to given preset
 
+        :param Lv2Effect effect: Effect that the preset will be updated
+        """
+        self.connection.send(ProtocolParser.preset_load(preset))
     def set_status(self, effect):
         """
         Toggle effect processing

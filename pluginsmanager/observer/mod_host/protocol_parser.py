@@ -117,7 +117,7 @@ class ProtocolParser:
         )
 
     @staticmethod
-    def preset_load():
+    def preset_load(preset):
         """
         ``preset_load <instance_number> <preset_uri>``
 
@@ -126,15 +126,11 @@ class ProtocolParser:
         e.g.::
 
             preset_load 0 "http://drobilla.net/plugins/mda/presets#JX10-moogcury-lite"
-
-        .. note::
-
-            Not implemented yet
         """
-        pass
+        return 'preset_load {} {}'.format(preset.effect.instance, preset.uri);
 
     @staticmethod
-    def preset_save():
+    def preset_save(effect, name, dir, uri):
         """
         ``preset_save <instance_number> <preset_name> <dir> <file_name>``
 
@@ -143,15 +139,11 @@ class ProtocolParser:
         e.g.::
 
             preset_save 0 "My Preset" /home/user/.lv2/my-presets.lv2 mypreset.ttl
-
-        .. note::
-
-            Not implemented yet
         """
-        pass
+        return 'preset_save {} {} {} {}'.format(effect.instance, name, dir, uri)
 
     @staticmethod
-    def preset_show():
+    def preset_show(effect, uri):
         """
         ``preset_show <instance_number> <preset_uri>``
 
@@ -165,7 +157,7 @@ class ProtocolParser:
 
             Not implemented yet
         """
-        pass
+        return 'preset_show {} {}'.format(effect.instance, uri)
 
     @staticmethod
     def param_set(param):

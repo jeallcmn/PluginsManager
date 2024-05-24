@@ -35,6 +35,9 @@ class MyAwesomeObserver(UpdatesObserver):
     def on_effect_updated(self, effect, update_type, index, origin, **kwargs):
         pass
 
+    def on_preset_changed(self, effect, **kwargs):
+        pass
+
     def on_param_value_changed(self, param, **kwargs):
         pass
 
