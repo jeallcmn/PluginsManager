@@ -115,6 +115,52 @@ class ProtocolParser:
             ProtocolParser._get_out_name_of(connection.output),
             ProtocolParser._get_in_name_of(connection.input)
         )
+    @staticmethod
+    def set_bpm(num):
+        """
+        set_bpm <beats_per_minute>
+        
+        * set the global beats per minute transport value
+        
+        e.g.: set_bpm 120
+        """
+        return 'set_bpm {}'.format(num)
+        
+    @staticmethod
+    def set_bpb(num):
+        """
+        set_bpb <beats_per_bar>
+    
+        * set the global beats per bar transport value
+        
+        e.g.: set_bpb 4
+        """
+        return 'set_bpb {}'.format(num)
+        
+    @staticmethod
+    def save(filename):
+        return 'save {}'.format(filename)
+    
+    @staticmethod
+    def transport(rolling, bpb, bpm):
+        """
+        transport <rolling> <beats_per_bar> <beats_per_minute>
+        
+        * change the global transport state
+
+        e.g.: transport 1 4 120
+        """
+        return 'transport {} {} {}'.format(rolling, bpb, bpm)
+    
+    @staticmethod
+    def transport_sync(self, mode):
+        """
+        transport_sync <mode>
+        * change the transport sync mode
+        * mode can be one of "none", "link" or "midi"
+        e.g.: transport_sync "midi"
+        """
+        return 'transport_sync {}'.format(mode)
 
     @staticmethod
     def preset_load(preset):

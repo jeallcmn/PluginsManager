@@ -43,6 +43,17 @@ class Host:
 
         self.instance_index = 0
 
+    def set_bpm(self, num):
+        self.connection.send(ProtocolParser.set_bpm(num));
+    def set_bpb(self, num):
+        self.connection.send(ProtocolParser.set_bpb(num));
+    def transport(self, rolling, bpb, bpm):
+        self.connection.send(ProtocolParser.transport(rolling, bpb, bpm))
+    def transport_sync(self, mode):
+        self.connection.send(ProtocolParser.transport_sync(mode))
+    def save(self, filename):
+        self.connection.send(ProtocolParser.save(filename))
+        
     def add(self, effect):
         """
         Add an LV2 plugin encapsulated as a jack client
