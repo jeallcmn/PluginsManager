@@ -15,6 +15,7 @@
 from pluginsmanager.model.effect import Effect
 from pluginsmanager.model.lv2.lv2_param import Lv2Param
 from pluginsmanager.model.lv2.lv2_patch import Lv2Patch
+from pluginsmanager.model.lv2.lv2_preset import Lv2Preset
 from pluginsmanager.model.lv2.lv2_input import Lv2Input
 from pluginsmanager.model.lv2.lv2_output import Lv2Output
 from pluginsmanager.model.lv2.lv2_midi_input import Lv2MidiInput
@@ -47,8 +48,11 @@ class Lv2Effect(Effect):
         params = [Lv2Param(self, param) for param in plugin["ports"]["control"]["input"]]
         self._params = DictTuple(params, lambda param: param.symbol)
 
-        patches = [Lv2Patch(self, patch, None) for patch in plugin["patches"]['writable']]
-        self._patches = DictTuple(patches, lambda patch: patch.name)
+        patches = [Lv2Patch(self, p['label'], p['uri'], None) for p in plugin["patches"]]
+        self._patches = DictTuple(patches, lambda patch: patch.label)
+
+        presets = [Lv2Preset(self, p['label'], p['uri']) for p in plugin["presets"]]
+        self._availablePresets = DictTuple(presets, lambda preset: preset.label)
 
         inputs = [Lv2Input(self, effect_input) for effect_input in plugin['ports']['audio']['input']]
         self._inputs = DictTuple(inputs, lambda _input: _input.symbol)
@@ -68,8 +72,9 @@ class Lv2Effect(Effect):
         return str(self.plugin)
 
     def __repr__(self):
-        return "<{} object as '{}' {} active at 0x{:x}>".format(
+        return "<{} object as '{}' {} active at 0x{:x}, preset:{}>".format(
             self.__class__.__name__,
+            self._preset.label,
             str(self),
             '' if self.active else 'not',
             id(self)
@@ -83,6 +88,7 @@ class Lv2Effect(Effect):
             'active': self.active,
             'params': [param.json for param in self.params],
             'patches': [patch.json for patch in self.patches],
+            'preset': self.preset.label,
             'version': self.version
         }
 

@@ -43,6 +43,17 @@ class Host:
 
         self.instance_index = 0
 
+    def set_bpm(self, num):
+        self.connection.send(ProtocolParser.set_bpm(num));
+    def set_bpb(self, num):
+        self.connection.send(ProtocolParser.set_bpb(num));
+    def transport(self, rolling, bpb, bpm):
+        self.connection.send(ProtocolParser.transport(rolling, bpb, bpm))
+    def transport_sync(self, mode):
+        self.connection.send(ProtocolParser.transport_sync(mode))
+    def save(self, filename):
+        self.connection.send(ProtocolParser.save(filename))
+        
     def add(self, effect):
         """
         Add an LV2 plugin encapsulated as a jack client
@@ -93,7 +104,13 @@ class Host:
         :param Lv2Patch patch: Patch that the value will be updated
         """
         self.connection.send(ProtocolParser.patch_set(patch))
+    def set_preset(self, preset):
+        """
+        Set an effect to given preset
 
+        :param Lv2Effect effect: Effect that the preset will be updated
+        """
+        self.connection.send(ProtocolParser.preset_load(preset))
     def set_status(self, effect):
         """
         Toggle effect processing

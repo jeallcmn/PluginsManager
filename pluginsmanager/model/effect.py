@@ -52,9 +52,11 @@ class Effect(metaclass=ABCMeta):
     def __init__(self):
         self.pedalboard = None
         self._active = True
-
-        self._params = ()
+        self._preset = None
         self._patches = ()
+        self._params = ()
+        self._availablePatches = DictTuple([], lambda: None)
+        self._availablePresets = DictTuple([], lambda: None)
         self._inputs = DictTuple([], lambda: None)
         self._outputs = DictTuple([], lambda: None)
         self._midi_inputs = DictTuple([], lambda: None)
@@ -66,6 +68,10 @@ class Effect(metaclass=ABCMeta):
     def observer(self):
         return self._observer
 
+    @property
+    def availablePresets(self):
+        return self._availablePresets
+    
     @observer.setter
     def observer(self, observer):
         self._observer = observer
@@ -135,6 +141,22 @@ class Effect(metaclass=ABCMeta):
 
         self._active = status
         self.observer.on_effect_status_toggled(self)
+
+    @availablePresets.setter
+    def availablePresets(self, options):
+        self._availablePresets = options
+
+    @property
+    def preset(self):
+        return self._preset
+    
+    @preset.setter
+    def preset(self, name):
+        if name in self._availablePresets:
+            
+            self._preset = self._availablePresets[name]
+            print(f"Setting preset => {self._preset}")
+            self.observer.on_preset_changed(self._preset)
 
     def toggle(self):
         """

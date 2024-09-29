@@ -12,27 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pluginsmanager.model.patch import Patch
+from pluginsmanager.model.preset import Preset
 
 
-class Lv2Patch(Patch):
+class Lv2Preset(Preset):
     """
-    Representation of a Lv2 patch.
+    Representation of a Lv2 Preset.
 
-    For general input use, see :class:`.Patch` class documentation.
+    For general input use, see :class:`.Preset` class documentation.
 
-    :param Lv2Effect effect: Effect that contains the patchy
+    :param Lv2Effect effect: Effect that contains the Presety
     :param str symbol: symbol for the effect
 
-    .. _patch: http://lv2plug.in/ns/ext/patch#
+    .. _Preset: http://lv2plug.in/ns/ext/Preset#
     """
 
-    def __init__(self, effect, label, uri, default):
-        super(Lv2Patch, self).__init__(effect, label, uri, default)
-        print(f"Creating patch {label} {uri}")
-
+    def __init__(self, effect, label, uri):
+        super(Lv2Preset, self).__init__(effect, label, uri)
 
     @property
     def __dict__(self):
-        dictionary = super(Lv2Patch, self).__dict__
+        dictionary = super(Lv2Preset, self).__dict__
         return dictionary

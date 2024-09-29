@@ -75,6 +75,10 @@ class ObserverManager(UpdatesObserver):
         for observer in self.observers:
             if observer != self.scope:
                 observer.on_patch_value_changed(patch, **kwargs)
+    def on_preset_changed(self, preset, **kwargs):
+        for observer in self.observers:
+            if observer != self.scope:
+                observer.on_preset_changed(preset, **kwargs)
 
     def on_connection_updated(self, connection, update_type, pedalboard, **kwargs):
         for observer in self.observers:

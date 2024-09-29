@@ -130,6 +130,17 @@ class ModHost(HostObserver):
         """
         self.host = Host(self.address, self.port)
 
+    def set_bpm(self, num):
+        self.host.set_bpm(num)
+    def set_bpb(self, num):
+        self.host.set_bpb(num)
+    def transport(self, rolling, bpb, bpm):
+        self.host.transport(rolling, bpb, bpm)
+    def transport_sync(self, mode):
+        self.host.transport_sync(mode)
+    def save(self, filename):
+        self.host.save(filename)
+
     def __del__(self):
         """
         Calls :meth:`~pluginsmanager.observer.mod_host.ModHost.close()` method for
@@ -166,6 +177,7 @@ class ModHost(HostObserver):
         else:
             self.host.close()
 
+
     ####################################
     # Observer
     ####################################
@@ -175,6 +187,8 @@ class ModHost(HostObserver):
     def _set_patch_value(self, patch):
         self.host.set_patch_value(patch)
 
+    def _set_preset(self, preset):
+        self.host.set_preset(preset)
     def _remove_effect(self, effect):
         self.host.remove(effect)
 

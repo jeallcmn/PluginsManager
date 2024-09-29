@@ -142,6 +142,11 @@ class HostObserver(UpdatesObserver, metaclass=ABCMeta):
 
         self._set_effect_status(effect)
 
+    def on_preset_changed(self, preset, **kwargs):
+        if preset.effect.pedalboard != self.pedalboard:
+            return
+        self._set_preset(preset)
+
     def on_param_value_changed(self, param, **kwargs):
         if param.effect.pedalboard != self.pedalboard:
             return
@@ -252,3 +257,6 @@ class HostObserver(UpdatesObserver, metaclass=ABCMeta):
     @abstractmethod
     def _set_effect_status(self, effect):
         pass
+    @abstractmethod
+    def _set_preset(self, effect):
+        pass    

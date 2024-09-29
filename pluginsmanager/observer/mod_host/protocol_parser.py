@@ -115,9 +115,55 @@ class ProtocolParser:
             ProtocolParser._get_out_name_of(connection.output),
             ProtocolParser._get_in_name_of(connection.input)
         )
+    @staticmethod
+    def set_bpm(num):
+        """
+        set_bpm <beats_per_minute>
+        
+        * set the global beats per minute transport value
+        
+        e.g.: set_bpm 120
+        """
+        return 'set_bpm {}'.format(num)
+        
+    @staticmethod
+    def set_bpb(num):
+        """
+        set_bpb <beats_per_bar>
+    
+        * set the global beats per bar transport value
+        
+        e.g.: set_bpb 4
+        """
+        return 'set_bpb {}'.format(num)
+        
+    @staticmethod
+    def save(filename):
+        return 'save {}'.format(filename)
+    
+    @staticmethod
+    def transport(rolling, bpb, bpm):
+        """
+        transport <rolling> <beats_per_bar> <beats_per_minute>
+        
+        * change the global transport state
+
+        e.g.: transport 1 4 120
+        """
+        return 'transport {} {} {}'.format(rolling, bpb, bpm)
+    
+    @staticmethod
+    def transport_sync(self, mode):
+        """
+        transport_sync <mode>
+        * change the transport sync mode
+        * mode can be one of "none", "link" or "midi"
+        e.g.: transport_sync "midi"
+        """
+        return 'transport_sync {}'.format(mode)
 
     @staticmethod
-    def preset_load():
+    def preset_load(preset):
         """
         ``preset_load <instance_number> <preset_uri>``
 
@@ -126,15 +172,11 @@ class ProtocolParser:
         e.g.::
 
             preset_load 0 "http://drobilla.net/plugins/mda/presets#JX10-moogcury-lite"
-
-        .. note::
-
-            Not implemented yet
         """
-        pass
+        return 'preset_load {} {}'.format(preset.effect.instance, preset.uri);
 
     @staticmethod
-    def preset_save():
+    def preset_save(effect, name, dir, uri):
         """
         ``preset_save <instance_number> <preset_name> <dir> <file_name>``
 
@@ -143,15 +185,11 @@ class ProtocolParser:
         e.g.::
 
             preset_save 0 "My Preset" /home/user/.lv2/my-presets.lv2 mypreset.ttl
-
-        .. note::
-
-            Not implemented yet
         """
-        pass
+        return 'preset_save {} {} {} {}'.format(effect.instance, name, dir, uri)
 
     @staticmethod
-    def preset_show():
+    def preset_show(effect, uri):
         """
         ``preset_show <instance_number> <preset_uri>``
 
@@ -165,7 +203,7 @@ class ProtocolParser:
 
             Not implemented yet
         """
-        pass
+        return 'preset_show {} {}'.format(effect.instance, uri)
 
     @staticmethod
     def param_set(param):
